@@ -24,6 +24,8 @@
 
     maxIconsPerRow: maxIconsPerRow,
 
+    _offsetY: 0,
+
     _percent: minIconsPerRow / minIconsPerRow,
 
     get percent() {
@@ -36,19 +38,37 @@
     },
 
     /**
-     * The height of each tile.
+     * The height of each grid item.
      * This number changes based on current zoom level.
      */
-    get tileHeight() {
+    get gridItemHeight() {
       return windowHeight / maxIconsPerRow * this.percent;
     },
 
     /**
-     * The width of each tile.
+     * The width of each grid item.
      * This number changes based on current zoom level.
      */
-    get tileWidth() {
+    get gridItemWidth() {
       return windowWidth / this.perRow;
+    },
+
+    /**
+     * Gets the current offset of the Y-axis for the current zoom level.
+     * This value is updated by calling zoom.stepYAxis. For example, each
+     * group of three icons, or a divider, should increment this value.
+     * The value is reset and recalculated when the zoom level changes.
+     */
+    get offsetY() {
+      return this._offsetY;
+    },
+
+    /**
+     * After we render a row we need to store the current position of the y-axis.
+     */
+    stepYAxis: function(value) {
+      dump('STEPPING Y axis: ' + value + ' - ' + this._offsetY + '\n');
+      this._offsetY += value;
     },
 
     /**

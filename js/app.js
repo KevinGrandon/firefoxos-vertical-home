@@ -11,9 +11,16 @@
   App.prototype = {
 
     /**
-     * List of all application icons
+     * List of all application icons.
+     * Maps an icon identifier to an icon object.
      */
     icons: {},
+
+    /**
+     * Lists of all displayed objects in the homescreen.
+     * Includes app icons, dividers, and bookmarks.
+     */
+    items: [],
 
     /**
      * Fetch all icons and render them.
@@ -34,6 +41,13 @@
       }
 
       function eachIcon(icon) {
+
+        // If there is no icon entry, do not push it onto items.
+        if (!icon.icon) {
+          return;
+        }
+
+        this.items.push(icon);
         this.icons[icon.identifier] = icon;
       }
 
@@ -47,7 +61,9 @@
     },
 
     /**
-     * Renders all icons
+     * Renders all icons.
+     * Positions app icons and dividers accoriding to available space
+     * on the grid.
      */
     render: function() {
 
@@ -55,18 +71,37 @@
       var x = 0;
       var y = 0;
 
-      for (var i in this.icons) {
-        this.icons[i].render({
+      this.items.forEach(function(item, idx) {
+
+        // If the item would go over the boundry before rendering,
+        // step the y-axis.
+        if (item.gridWidth > 1 && x + item.gridWidth >= this.zoom.perRow) {
+
+          // Step the y-axis by the size of the last row.
+          // For now we just check the height of the last item.
+          var lastItem = this.items[idx - 1];
+          app.zoom.stepYAxis(lastItem.height);
+
+          x = 0;
+          y++;
+        }
+
+        item.render({
           x: x,
           y: y
         });
 
-        x++;
+        // Increment the x-step by the sizing of the item.
+        // If we go over the current boundry, reset it, and step the y-axis.
+        x += item.gridWidth;
         if (x >= this.zoom.perRow) {
+          dump('STEPPING AFTER RENDER\n')
+          app.zoom.stepYAxis(item.height);
+
           x = 0;
           y++;
         }
-      }
+      }, this);
     },
 
     /**
