@@ -64,7 +64,7 @@
 			// Generate the tile if we need to
 			if (!this.tile) {
 				var tile = document.createElement('div');
-				tile.className = 'tile';
+				tile.className = 'icon';
 				tile.dataset.identifier = this.identifier;
 				tile.style.backgroundImage = 'url(' + this.app.origin + this.icon + ')';
 
