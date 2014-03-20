@@ -8,6 +8,7 @@ html {
 }
 
 .tile {
+	position: absolute;
 	display: inline-block;
 	width: calc(100% / 3);
 	height: 9rem;

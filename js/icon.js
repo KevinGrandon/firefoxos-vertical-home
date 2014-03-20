@@ -51,8 +51,9 @@
 
 		/**
 		 * Renders the icon to the container.
+		 * @param {Object} coordinates Grid coordinates to render to.
 		 */
-		render: function() {
+		render: function(coordinates) {
 			if (!this.icon) {
 				return;
 			}
@@ -61,6 +62,10 @@
 			tile.className = 'tile';
 			tile.dataset.identifier = this.identifier;
 			tile.style.backgroundImage = 'url(' + this.app.origin + this.icon + ')';
+
+			var x = coordinates.x * app.zoom.tileWidth;
+			var y = coordinates.y * app.zoom.tileHeight;
+			tile.style.transform = 'translate(' + x + 'px,' + y + 'px)';
 
 			container.appendChild(tile);
 		},
