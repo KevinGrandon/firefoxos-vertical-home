@@ -1,7 +1,7 @@
 (function(exports) {
 
   // For now we inject a divider every few icons for testing.
-  var tempDivideEvery = 3;
+  var tempDivideEvery = 6;
   var tempCurrent = 0;
 
   // Hidden manifest roles that we do not show
@@ -53,7 +53,7 @@
 
         // FIXME: Remove after we have real divider insertion/remembering.
         tempCurrent++;
-        if (tempCurrent > tempDivideEvery) {
+        if (tempCurrent >= tempDivideEvery) {
           this.items.push(new Divider());
           tempCurrent = 0;
         }
