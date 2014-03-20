@@ -39,7 +39,8 @@
       switch(e.type) {
           case 'touchstart':
             this.target = e.touches[0].target;
-            this.timeout = setTimeout(this.begin.bind(this), this.activateDelay);
+            this.timeout = setTimeout(this.begin.bind(this),
+              this.activateDelay);
             break;
           case 'touchmove':
             if (!this.active || !this.icon) {
@@ -50,7 +51,33 @@
             e.preventDefault();
 
             var touch = e.touches[0];
-            this.icon.transform(touch.pageX - this.xAdjust, touch.pageY - this.yAdjust);
+            this.icon.transform(
+              touch.pageX - this.xAdjust,
+              touch.pageY - this.yAdjust);
+
+            // Reposition in the icons array if necessary.
+            // Find the icon with the closest X/Y position of the move,
+            // and insert ours before it.
+            // Todo: this could be more efficient with a binary search.
+            var leastDistance;
+            var foundIndex;
+            for (var i = 0, iLen = app.items.length; i < iLen; i++) {
+              var item = app.items[i];
+              var distance = Math.sqrt(
+                (touch.pageX - item.x) * (touch.pageX - item.x) +
+                (touch.pageY - item.y) * (touch.pageY - item.y));
+              if (!leastDistance || distance < leastDistance) {
+                leastDistance = distance;
+                foundIndex = i;
+              }
+            }
+
+            // Insert at the found position
+            var myIndex = this.icon.itemIndex;
+            if (foundIndex !== myIndex) {
+              app.items.splice(foundIndex, 0, app.items.splice(myIndex, 1)[0]);
+              app.render();
+            }
 
             break;
           case 'touchend':

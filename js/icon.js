@@ -70,8 +70,9 @@
     /**
      * Renders the icon to the container.
      * @param {Object} coordinates Grid coordinates to render to.
+     * @param {Number} itemIndex The index of the items list of this item.
      */
-    render: function(coordinates) {
+    render: function(coordinates, itemIndex) {
       var x = coordinates.x * app.zoom.gridItemWidth;
       var y = app.zoom.offsetY;
 
@@ -92,6 +93,7 @@
         container.appendChild(tile);
       }
 
+      this.itemIndex = itemIndex;
       this.x = x;
       this.y = y;
       this.scale = app.zoom.percent;

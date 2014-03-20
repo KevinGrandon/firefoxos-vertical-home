@@ -22,8 +22,9 @@
 		/**
 		 * Renders the icon to the container.
 		 * @param {Object} coordinates Grid coordinates to render to.
+		 * @param {Number} itemIndex The index of the items list of this item.
 		 */
-		render: function(coordinates) {
+		render: function(coordinates, itemIndex) {
 			var x = '0';
 			var y = app.zoom.offsetY;
 
@@ -38,6 +39,7 @@
 
 			this.divider.style.transform = 'translate(' + x + 'px,' + y + 'px)';
 
+			this.itemIndex = itemIndex;
 			this.x = x;
 			this.y = y;
 		}
