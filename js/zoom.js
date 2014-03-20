@@ -1,5 +1,7 @@
 (function(exports) {
 
+  const maxIconsPerCol = 4;
+
   const maxIconsPerRow = 4;
 
   const minIconsPerRow = 3;
@@ -46,7 +48,7 @@
      * This number changes based on current zoom level.
      */
     get gridItemHeight() {
-      return windowHeight / 4.5 * this.percent;
+      return windowHeight / maxIconsPerCol * this.percent;
     },
 
     /**

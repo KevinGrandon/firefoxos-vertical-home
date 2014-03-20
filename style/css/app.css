@@ -28,6 +28,15 @@ html {
   transition: transform 500ms ease;
 }
 
+.icon .title {
+  display: block;
+  margin-top: 9rem;
+  pointer-events: none;
+  color: #fff;
+  font-size: 1.2rem;
+  text-shadow: 0 0 0.5rem rgba(0,0,0,0.5);
+}
+
 .divider {
   position: absolute;
   height: 0.4rem;

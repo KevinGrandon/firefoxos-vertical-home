@@ -25,7 +25,13 @@
 		gridWidth: 1,
 
 		get name() {
-			return this.descriptor.name;
+			var name = this.descriptor.name;
+			var userLang = document.documentElement.lang;
+
+			if (name[userLang]) {
+				return name[userLang];
+			}
+			return name;
 		},
 
 		get icon() {
@@ -75,6 +81,11 @@
 				tile.className = 'icon';
 				tile.dataset.identifier = this.identifier;
 				tile.style.backgroundImage = 'url(' + this.app.origin + this.icon + ')';
+
+				var nameEl = document.createElement('span');
+				nameEl.className = 'title';
+				nameEl.textContent = this.name;
+				tile.appendChild(nameEl);
 
 				this.tile = tile;
 
