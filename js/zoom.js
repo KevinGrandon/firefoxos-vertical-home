@@ -42,7 +42,7 @@
      * This number changes based on current zoom level.
      */
     get gridItemHeight() {
-      return windowHeight / maxIconsPerRow * this.percent;
+      return windowHeight / 4.5 * this.percent;
     },
 
     /**
@@ -67,7 +67,6 @@
      * After we render a row we need to store the current position of the y-axis.
      */
     stepYAxis: function(value) {
-      dump('STEPPING Y axis: ' + value + ' - ' + this._offsetY + '\n');
       this._offsetY += value;
     },
 

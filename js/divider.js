@@ -12,7 +12,7 @@
 		/**
 		 * Height in pixels of each divider.
 		 */
-		pixelHeight: 40,
+		pixelHeight: 50,
 
 		/**
 		 * Width in grid units for each divider.
@@ -24,8 +24,7 @@
 		 * @param {Object} coordinates Grid coordinates to render to.
 		 */
 		render: function(coordinates) {
-dump('Rendering divider!');
-			var x = coordinates.x * app.zoom.tileWidth;
+			var x = '0';
 			var y = app.zoom.offsetY;
 
 			// Generate the content if we need to

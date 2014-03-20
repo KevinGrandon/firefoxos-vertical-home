@@ -1,10 +1,10 @@
 * {
-	padding: 0;
-	margin: 0;
+  padding: 0;
+  margin: 0;
 }
 
 html {
-	font-size: 10px;
+  font-size: 10px;
 }
 
 .icons {
@@ -15,15 +15,23 @@ html {
 }
 
 .icon {
-	position: absolute;
-	transform-origin: 0 0;
-	/* Disabled due to possibly too many layers */
-	/* will-change: transform; */
-	display: inline-block;
-	width: calc(100% / 3);
-	height: 9rem;
-	text-align: center;
-	background: no-repeat center;
-	background-size: 8rem;
-	transition: transform 500ms ease;
+  position: absolute;
+  transform-origin: 0 0;
+  /* Disabled due to possibly too many layers */
+  /* will-change: transform; */
+  display: inline-block;
+  width: calc(100% / 3);
+  height: 9rem;
+  text-align: center;
+  background: no-repeat center;
+  background-size: 8rem;
+  transition: transform 500ms ease;
+}
+
+.divider {
+  position: absolute;
+  height: 1rem;
+  margin: 2rem 0;
+  background: #ff0000;
+  width: 100%;
 }

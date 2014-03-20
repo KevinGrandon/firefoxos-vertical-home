@@ -15,7 +15,7 @@
 		/**
 		 * Returns the height in pixels of each icon.
 		 */
-		get height() {
+		get pixelHeight() {
 			return app.zoom.gridItemHeight;
 		},
 
