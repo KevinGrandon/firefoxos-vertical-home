@@ -1,5 +1,9 @@
 (function(exports) {
 
+  // For now we inject a divider every few icons for testing.
+  var tempDivideEvery = 6;
+  var tempCurrent = 0;
+
   // Hidden manifest roles that we do not show
   const HIDDEN_ROLES = ['system', 'keyboard', 'homescreen', 'search'];
 
@@ -11,9 +15,16 @@
   App.prototype = {
 
     /**
-     * List of all application icons
+     * List of all application icons.
+     * Maps an icon identifier to an icon object.
      */
     icons: {},
+
+    /**
+     * Lists of all displayed objects in the homescreen.
+     * Includes app icons, dividers, and bookmarks.
+     */
+    items: [],
 
     /**
      * Fetch all icons and render them.
@@ -34,6 +45,20 @@
       }
 
       function eachIcon(icon) {
+
+        // If there is no icon entry, do not push it onto items.
+        if (!icon.icon) {
+          return;
+        }
+
+        // FIXME: Remove after we have real divider insertion/remembering.
+        tempCurrent++;
+        if (tempCurrent >= tempDivideEvery) {
+          this.items.push(new Divider());
+          tempCurrent = 0;
+        }
+
+        this.items.push(icon);
         this.icons[icon.identifier] = icon;
       }
 
@@ -47,7 +72,9 @@
     },
 
     /**
-     * Renders all icons
+     * Renders all icons.
+     * Positions app icons and dividers accoriding to available space
+     * on the grid.
      */
     render: function() {
 
@@ -55,18 +82,40 @@
       var x = 0;
       var y = 0;
 
-      for (var i in this.icons) {
-        this.icons[i].render({
+      /**
+       * Steps the y-axis.
+       * @param {Object} item
+       */
+      function step(item) {
+        app.zoom.stepYAxis(item.pixelHeight);
+
+        x = 0;
+        y++;
+      }
+
+      this.items.forEach(function(item, idx) {
+
+        // If the item would go over the boundry before rendering,
+        // step the y-axis.
+        if (x > 0 && item.gridWidth > 1 && x + item.gridWidth >= this.zoom.perRow) {
+          // Step the y-axis by the size of the last row.
+          // For now we just check the height of the last item.
+          var lastItem = this.items[idx - 1];
+          step(lastItem);
+        }
+
+        item.render({
           x: x,
           y: y
         });
 
-        x++;
+        // Increment the x-step by the sizing of the item.
+        // If we go over the current boundry, reset it, and step the y-axis.
+        x += item.gridWidth;
         if (x >= this.zoom.perRow) {
-          x = 0;
-          y++;
+          step(item);
         }
-      }
+      }, this);
     },
 
     /**

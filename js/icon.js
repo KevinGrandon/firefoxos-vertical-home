@@ -12,6 +12,18 @@
 
 	Icon.prototype = {
 
+		/**
+		 * Returns the height in pixels of each icon.
+		 */
+		get pixelHeight() {
+			return app.zoom.gridItemHeight;
+		},
+
+		/**
+		 * Width in grid units for each icon.
+		 */
+		gridWidth: 1,
+
 		get name() {
 			return this.descriptor.name;
 		},
@@ -54,12 +66,8 @@
 		 * @param {Object} coordinates Grid coordinates to render to.
 		 */
 		render: function(coordinates) {
-			if (!this.icon) {
-				return;
-			}
-
-			var x = coordinates.x * app.zoom.tileWidth;
-			var y = coordinates.y * app.zoom.tileHeight;
+			var x = coordinates.x * app.zoom.gridItemWidth;
+			var y = app.zoom.offsetY;
 
 			// Generate the tile if we need to
 			if (!this.tile) {
