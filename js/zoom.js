@@ -69,6 +69,10 @@
       return this._offsetY;
     },
 
+    set offsetY(value) {
+      this._offsetY = value;
+    },
+
     /**
      * After we render a row we need to store the current position of the y-axis.
      */

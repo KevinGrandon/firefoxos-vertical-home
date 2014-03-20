@@ -30,10 +30,6 @@
 
       var identifier = this.target.dataset.identifier;
       this.icon = app.icons[identifier];
-
-      this.originalIconX = this.icon.x;
-      this.originalIconY = this.icon.y;
-      this.originalIconScale = this.icon.scale;
     },
 
     /**
@@ -64,9 +60,7 @@
             }
             this.target = null;
             clearTimeout(this.activateDelay);
-
-            // Revert to the original space
-            this.icon.transform(this.originalIconX, this.originalIconY, this.originalIconScale);
+            app.render();
 
             break;
         }

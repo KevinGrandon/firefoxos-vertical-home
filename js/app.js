@@ -79,6 +79,9 @@
      */
     render: function() {
 
+      // Reset offset steps
+      this.zoom.offsetY = 0;
+
       // Grid render coordinates
       var x = 0;
       var y = 0;
