@@ -58,16 +58,25 @@
 				return;
 			}
 
-			var tile = document.createElement('div');
-			tile.className = 'tile';
-			tile.dataset.identifier = this.identifier;
-			tile.style.backgroundImage = 'url(' + this.app.origin + this.icon + ')';
-
 			var x = coordinates.x * app.zoom.tileWidth;
 			var y = coordinates.y * app.zoom.tileHeight;
-			tile.style.transform = 'translate(' + x + 'px,' + y + 'px)';
 
-			container.appendChild(tile);
+			// Generate the tile if we need to
+			if (!this.tile) {
+				var tile = document.createElement('div');
+				tile.className = 'tile';
+				tile.dataset.identifier = this.identifier;
+				tile.style.backgroundImage = 'url(' + this.app.origin + this.icon + ')';
+
+				this.tile = tile;
+
+				container.appendChild(tile);
+			}
+
+			this.tile.style.transform = 'translate(' + x + 'px,' + y + 'px) scale(' + app.zoom.minIconsPerRow / app.zoom.perRow + ')';
+
+			this.x = x;
+			this.y = y;
 		},
 
 		/**

@@ -9,6 +9,7 @@ html {
 
 .tile {
 	position: absolute;
+	transform-origin: 0 0;
 	display: inline-block;
 	width: calc(100% / 3);
 	height: 9rem;

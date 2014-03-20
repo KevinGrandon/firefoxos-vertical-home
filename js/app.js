@@ -55,7 +55,6 @@
       var x = 0;
       var y = 0;
 
-      document.getElementById('icons').innerHTML = '';
       for (var i in this.icons) {
         this.icons[i].render({
           x: x,
@@ -63,8 +62,7 @@
         });
 
         x++;
-        dump('Comparing:' + x + '-' + this.zoom.rowCount + '\n')
-        if (x >= this.zoom.rowCount) {
+        if (x >= this.zoom.perRow) {
           x = 0;
           y++;
         }
@@ -89,5 +87,15 @@
 
   exports.app = new App();
   exports.app.init();
+
+  setInterval(function() {
+    if (exports.app.zoom.perRow === 4) {
+      exports.app.zoom.perRow = 3;
+    } else {
+      exports.app.zoom.perRow = 4;
+    }
+
+    exports.app.render();
+  }, 2000)
 
 }(window));
