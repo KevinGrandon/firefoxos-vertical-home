@@ -17,8 +17,7 @@ html {
 .icon {
   position: absolute;
   transform-origin: 0 0;
-  /* Disabled due to possibly too many layers */
-  /* will-change: transform; */
+  will-change: transform;
   display: inline-block;
   width: calc(100% / 3);
   height: 9rem;
