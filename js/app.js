@@ -50,9 +50,7 @@
 		 */
 		render: function() {
 			document.getElementById('icons').innerHTML = '';
-			console.log('Rendering all!');
 			for (var i in this.icons) {
-				console.log('Rendering: ', i, this.icons[i])
 				this.icons[i].render();
 			}
 		},

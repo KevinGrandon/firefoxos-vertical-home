@@ -20,9 +20,15 @@
 			if (!this.descriptor.icons) {
 				return '';
 			}
+
+			var lastIcon = 0;
 			for (var i in this.descriptor.icons) {
-				return this.descriptor.icons[i];
+				console.log('Getting icon at:', i);
+				if (i > lastIcon) {
+					lastIcon = i;
+				}
 			}
+			return this.descriptor.icons[lastIcon];
 		},
 
 		get descriptor() {
@@ -48,12 +54,15 @@
 		 * Renders the icon to the container.
 		 */
 		render: function() {
-			console.log('In render obj.')
+			if (!this.icon) {
+				return;
+			}
+
 			var tile = document.createElement('div');
 			tile.className = 'tile';
 			tile.dataset.identifier = this.identifier;
 			tile.style.backgroundImage = 'url(' + this.app.origin + this.icon + ')';
-console.log('Generated:', tile.outerHTML);
+
 			container.appendChild(tile);
 		},
 
