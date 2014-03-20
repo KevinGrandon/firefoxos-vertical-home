@@ -1,0 +1,22 @@
+{
+  "name": "FirefoxOS Vertical Homepage",
+  "description": "Prototype of a vertical homepage in FirefoxOS.",
+  "launch_path": "/index.html",
+  "type": "certified",
+  "role": "homescreen",
+  "developer": {
+    "name": "Kevin Grandon",
+    "url": "https://github.com/kevingrandon/"
+  },
+  "permissions": {
+    "webapps-manage": {},
+    "storage": {}
+  },
+  "default_locale": "en-US",
+  "icons": {
+    "60": "/style/icons/blank.png"
+  },
+  "orientation": "portrait-primary",
+  "activities": {},
+  "messages": []
+}
