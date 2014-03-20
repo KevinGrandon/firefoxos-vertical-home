@@ -12,7 +12,7 @@
 		/**
 		 * Height in pixels of each divider.
 		 */
-		pixelHeight: 50,
+		pixelHeight: 70,
 
 		/**
 		 * Width in grid units for each divider.
