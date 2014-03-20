@@ -3,10 +3,15 @@
 	margin: 0;
 }
 
+html {
+	font-size: 10px;
+}
+
 .tile {
 	display: inline-block;
-	width: 30%;
-	height: 100px;
-	margin: 1.5%;
+	width: calc(100% / 3);
+	height: 9rem;
+	text-align: center;
 	background: no-repeat center;
+	background-size: 8rem;
 }

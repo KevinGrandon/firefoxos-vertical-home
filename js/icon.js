@@ -23,7 +23,6 @@
 
 			var lastIcon = 0;
 			for (var i in this.descriptor.icons) {
-				console.log('Getting icon at:', i);
 				if (i > lastIcon) {
 					lastIcon = i;
 				}
