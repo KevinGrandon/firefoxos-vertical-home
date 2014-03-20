@@ -9,7 +9,8 @@
 
   function App() {
     this.zoom = new Zoom();
-    window.addEventListener('click', this.launchApp.bind(this));
+    this.dragdrop = new DragDrop();
+    window.addEventListener('click', this.clickIcon.bind(this));
   }
 
   App.prototype = {
@@ -121,7 +122,7 @@
     /**
      * Launches an app.
      */
-    launchApp: function(e) {
+    clickIcon: function(e) {
       var container = e.target
       var identifier = container.dataset.identifier;
       var icon = this.icons[identifier];

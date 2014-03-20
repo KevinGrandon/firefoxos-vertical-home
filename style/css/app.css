@@ -36,6 +36,10 @@ html {
   text-shadow: 0 0 0.5rem rgba(0,0,0,0.5);
 }
 
+.icon.active {
+  transition: none;
+}
+
 .divider {
   position: absolute;
   height: 0.4rem;
