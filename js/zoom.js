@@ -33,6 +33,10 @@
     },
 
     set percent(value) {
+
+      // Reset the y-offset because we will re-render everything anyway.
+      this._offsetY = 0;
+
       this._percent = value;
       this.perRow = maxIconsPerRow + minIconsPerRow - maxIconsPerRow * value;
     },
