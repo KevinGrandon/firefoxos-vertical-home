@@ -89,17 +89,3 @@
   exports.app.init();
 
 }(window));
-
-
-var inc = -0.01
-setInterval(function() {
-  
-  app.zoom.percent += inc;
-  var per = Math.round(app.zoom.percent * 100) / 100;
-  dump(per + ' - ' +  inc + '\n')
-  if (per === 1 || per === 0.75) {
-    inc = 0 - inc;
-  }
-
-  app.render();
-}, 20)
