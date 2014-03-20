@@ -88,14 +88,4 @@
   exports.app = new App();
   exports.app.init();
 
-  setInterval(function() {
-    if (exports.app.zoom.perRow === 4) {
-      exports.app.zoom.perRow = 3;
-    } else {
-      exports.app.zoom.perRow = 4;
-    }
-
-    exports.app.render();
-  }, 2000)
-
 }(window));

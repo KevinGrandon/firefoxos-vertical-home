@@ -9,21 +9,33 @@
   const windowWidth = window.innerWidth;
 
   function Zoom() {
-    this.perRow = 3;
   }
 
   Zoom.prototype = {
 
+    perRow: minIconsPerRow,
+
     minIconsPerRow: minIconsPerRow,
 
     maxIconsPerRow: maxIconsPerRow,
+
+    _percent: minIconsPerRow / minIconsPerRow,
+
+    get percent() {
+      return this._percent;
+    },
+
+    set percent(value) {
+      this._percent = value;
+      this.perRow = maxIconsPerRow + minIconsPerRow - maxIconsPerRow * value;
+    },
 
     /**
      * The height of each tile.
      * This number changes based on current zoom level.
      */
     get tileHeight() {
-      return windowHeight / maxIconsPerRow * (minIconsPerRow / this.perRow);
+      return windowHeight / maxIconsPerRow * this.percent;
     },
 
     /**

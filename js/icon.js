@@ -73,7 +73,7 @@
 				container.appendChild(tile);
 			}
 
-			this.tile.style.transform = 'translate(' + x + 'px,' + y + 'px) scale(' + app.zoom.minIconsPerRow / app.zoom.perRow + ')';
+			this.tile.style.transform = 'translate(' + x + 'px,' + y + 'px) scale(' + app.zoom.percent + ')';
 
 			this.x = x;
 			this.y = y;
