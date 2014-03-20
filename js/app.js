@@ -63,7 +63,8 @@
         });
 
         x++;
-        if (x >= 3) {
+        dump('Comparing:' + x + '-' + this.zoom.rowCount + '\n')
+        if (x >= this.zoom.rowCount) {
           x = 0;
           y++;
         }
