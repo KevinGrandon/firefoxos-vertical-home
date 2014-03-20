@@ -34,4 +34,5 @@ html {
   margin: 2.3rem 1rem;
   background: rgba(255, 255, 255, 0.3);
   width: calc(100% - 2rem);
+  transition: transform 500ms ease;
 }
