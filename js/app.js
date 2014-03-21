@@ -76,13 +76,13 @@
      * Scrubs the list of items, removing empty sections.
      */
     cleanItems: function() {
-      console.log('CLEANING ITEMS!');
+      var numItems = this.items.length;
       var appCount = 0;
       var toRemove = [];
 
       this.items.forEach(function(item, idx) {
         if (item instanceof Divider) {
-          if (appCount === 0) {
+          if (appCount === 0 || idx === numItems - 1) {
             toRemove.push(idx);
           }
           appCount = 0;
