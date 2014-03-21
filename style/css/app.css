@@ -49,3 +49,11 @@ html {
   width: calc(100% - 2rem);
   transition: transform 500ms ease;
 }
+
+.divider:last-child {
+  visibility: hidden;
+}
+
+.edit-mode .divider:last-child {
+  visibility: visible;
+}

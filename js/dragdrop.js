@@ -4,8 +4,9 @@
 
   const activeScaleAdjust = 0.4;
 
+  var container = document.getElementById('icons');
+
   function DragDrop() {
-    var container = document.getElementById('icons');
     container.addEventListener('touchstart', this);
     container.addEventListener('touchmove', this);
     container.addEventListener('touchend', this);
@@ -30,6 +31,7 @@
       }
 
       this.active = true;
+      container.classList.add('edit-mode');
       this.target.classList.add('active');
 
       // Testing with some extra offset (20)
@@ -114,7 +116,6 @@
             if (foundIndex !== myIndex) {
               this.icon.noRender = true;
               app.items.splice(foundIndex, 0, app.items.splice(myIndex, 1)[0]);
-              app.cleanItems();
               app.render();
             }
 
@@ -127,6 +128,7 @@
             }
 
             this.active = false;
+            container.classList.remove('edit-mode');
 
             delete this.icon.noRender;
             this.icon = null;
@@ -134,7 +136,6 @@
             if (this.target) {
               this.target.classList.remove('active');
             }
-            app.cleanItems();
             app.render();
 
             this.target = null;

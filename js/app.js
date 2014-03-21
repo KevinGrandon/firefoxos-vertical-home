@@ -76,13 +76,12 @@
      * Scrubs the list of items, removing empty sections.
      */
     cleanItems: function() {
-      var numItems = this.items.length;
       var appCount = 0;
       var toRemove = [];
 
       this.items.forEach(function(item, idx) {
         if (item instanceof Divider) {
-          if (appCount === 0 || idx === numItems - 1) {
+          if (appCount === 0) {
             toRemove.push(idx);
           }
           appCount = 0;
@@ -96,6 +95,13 @@
         var removed = this.items.splice(idx, 1)[0];
         removed.remove();
       }, this);
+
+      // There should always be a divider at the end, it's hidden in CSS when 
+      // not in edit mode.
+      var lastItem = this.items[this.items.length - 1];
+      if (!(lastItem instanceof Divider)) {
+        this.items.push(new Divider());
+      }
     },
 
     /**
@@ -104,6 +110,8 @@
      * on the grid.
      */
     render: function() {
+
+      app.cleanItems();
 
       // Reset offset steps
       this.zoom.offsetY = 0;
