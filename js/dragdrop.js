@@ -24,7 +24,7 @@
      * Enlarges the icon.
      * Sets additional data to make the touchmove handler faster.
      */
-    begin: function() {
+    begin: function(e) {
       if (!this.target || !this.icon) {
         return;
       }
@@ -32,14 +32,15 @@
       this.active = true;
       this.target.classList.add('active');
 
+      // Testing with some extra offset (20)
+      this.xAdjust = app.zoom.gridItemHeight / 2 + 20;
+      this.yAdjust = app.zoom.gridItemWidth / 2 + 20;
+
       // Make the icon larger
       this.icon.transform(
-        this.icon.x,
-        this.icon.y,
+        e.touches[0].pageX - this.xAdjust,
+        e.touches[0].pageY - this.yAdjust,
         this.icon.scale + activeScaleAdjust);
-
-      this.xAdjust = this.target.clientWidth / 2;
-      this.yAdjust = this.target.clientHeight / 2;
     },
 
     /**
@@ -64,7 +65,7 @@
               return;
             }
 
-            this.timeout = setTimeout(this.begin.bind(this),
+            this.timeout = setTimeout(this.begin.bind(this, e),
               activateDelay);
             break;
           case 'touchmove':
@@ -111,6 +112,7 @@
             // Insert at the found position
             var myIndex = this.icon.itemIndex;
             if (foundIndex !== myIndex) {
+              this.icon.noRender = true;
               app.items.splice(foundIndex, 0, app.items.splice(myIndex, 1)[0]);
               app.render();
             }
@@ -124,6 +126,8 @@
             }
 
             this.active = false;
+
+            delete this.icon.noRender;
             this.icon = null;
 
             if (this.target) {

@@ -98,6 +98,11 @@
       this.y = y;
       this.scale = app.zoom.percent;
 
+      // Avoid rendering the icon during a drag to prevent jumpiness
+      if (this.noRender) {
+        return;
+      }
+
       this.transform(x, y, app.zoom.percent);
     },
 
