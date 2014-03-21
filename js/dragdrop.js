@@ -1,6 +1,6 @@
 (function(exports) {
 
-  const activateDelay = 400;
+  const activateDelay = 600;
 
   const activeScaleAdjust = 0.4;
 
@@ -48,6 +48,13 @@
     handleEvent: function(e) {
       switch(e.type) {
           case 'touchstart':
+
+            // If we get a second touch, cancel everything.
+            if (e.touches.length > 1) {
+              clearTimeout(this.timeout);
+              return;
+            }
+
             this.target = e.touches[0].target;
 
             var identifier = this.target.dataset.identifier;
