@@ -44,6 +44,10 @@
 			this.itemIndex = itemIndex;
 			this.x = x;
 			this.y = y;
+		},
+
+		remove: function() {
+			this.divider.parentNode.removeChild(this.divider);
 		}
 	};
 

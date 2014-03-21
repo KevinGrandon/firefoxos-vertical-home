@@ -73,6 +73,32 @@
     },
 
     /**
+     * Scrubs the list of items, removing empty sections.
+     */
+    cleanItems: function() {
+      console.log('CLEANING ITEMS!');
+      var appCount = 0;
+      var toRemove = [];
+
+      this.items.forEach(function(item, idx) {
+        if (item instanceof Divider) {
+          if (appCount === 0) {
+            toRemove.push(idx);
+          }
+          appCount = 0;
+        } else {
+          appCount++;
+        }
+      }, this);
+
+      toRemove.reverse();
+      toRemove.forEach(function(idx) {
+        var removed = this.items.splice(idx, 1)[0];
+        removed.remove();
+      }, this);
+    },
+
+    /**
      * Renders all icons.
      * Positions app icons and dividers accoriding to available space
      * on the grid.

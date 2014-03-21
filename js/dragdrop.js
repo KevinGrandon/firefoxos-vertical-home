@@ -114,6 +114,7 @@
             if (foundIndex !== myIndex) {
               this.icon.noRender = true;
               app.items.splice(foundIndex, 0, app.items.splice(myIndex, 1)[0]);
+              app.cleanItems();
               app.render();
             }
 
@@ -133,6 +134,7 @@
             if (this.target) {
               this.target.classList.remove('active');
             }
+            app.cleanItems();
             app.render();
 
             this.target = null;
