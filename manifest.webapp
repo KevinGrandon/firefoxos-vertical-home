@@ -1,6 +1,6 @@
 {
-  "name": "FirefoxOS Vertical Homepage",
-  "description": "Prototype of a vertical homepage in FirefoxOS.",
+  "name": "Vertical",
+  "description": "A FirefoxOS vertical homepage.",
   "launch_path": "/index.html",
   "type": "certified",
   "role": "homescreen",

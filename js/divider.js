@@ -19,6 +19,8 @@
 		 */
 		gridWidth: 4,
 
+		scale: 1,
+
 		/**
 		 * Renders the icon to the container.
 		 * @param {Object} coordinates Grid coordinates to render to.

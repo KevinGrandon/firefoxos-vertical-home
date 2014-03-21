@@ -1,6 +1,8 @@
 (function(exports) {
 
-  const activateDelay = 300;
+  const activateDelay = 400;
+
+  const activeScaleAdjust = 0.4;
 
   function DragDrop() {
     window.addEventListener('touchstart', this);
@@ -22,14 +24,21 @@
      * Sets additional data to make the touchmove handler faster.
      */
     begin: function() {
+      if (!this.target) {
+        return;
+      }
+
       this.active = true;
       this.target.classList.add('active');
 
+      // Make the icon larger
+      this.icon.transform(
+        this.icon.x,
+        this.icon.y,
+        this.icon.scale + activeScaleAdjust);
+
       this.xAdjust = this.target.clientWidth / 2;
       this.yAdjust = this.target.clientHeight / 2;
-
-      var identifier = this.target.dataset.identifier;
-      this.icon = app.icons[identifier];
     },
 
     /**
@@ -39,8 +48,16 @@
       switch(e.type) {
           case 'touchstart':
             this.target = e.touches[0].target;
+
+            var identifier = this.target.dataset.identifier;
+            this.icon = app.icons[identifier];
+
+            if (!this.icon) {
+              return;
+            }
+
             this.timeout = setTimeout(this.begin.bind(this),
-              this.activateDelay);
+              activateDelay);
             break;
           case 'touchmove':
             if (!this.active || !this.icon) {
@@ -53,7 +70,8 @@
             var touch = e.touches[0];
             this.icon.transform(
               touch.pageX - this.xAdjust,
-              touch.pageY - this.yAdjust);
+              touch.pageY - this.yAdjust,
+              this.icon.scale + activeScaleAdjust);
 
             // Reposition in the icons array if necessary.
             // Find the icon with the closest X/Y position of the move,
@@ -82,6 +100,8 @@
             break;
           case 'touchend':
             this.active = false;
+            this.icon = null;
+
             if (this.target) {
               this.target.classList.remove('active');
             }
