@@ -5,9 +5,10 @@
   const activeScaleAdjust = 0.4;
 
   function DragDrop() {
-    window.addEventListener('touchstart', this);
-    window.addEventListener('touchmove', this);
-    window.addEventListener('touchend', this);
+    var container = document.getElementById('icons');
+    container.addEventListener('touchstart', this);
+    container.addEventListener('touchmove', this);
+    container.addEventListener('touchend', this);
   }
 
   DragDrop.prototype = {
@@ -24,7 +25,7 @@
      * Sets additional data to make the touchmove handler faster.
      */
     begin: function() {
-      if (!this.target) {
+      if (!this.target || !this.icon) {
         return;
       }
 
@@ -60,6 +61,16 @@
               activateDelay);
             break;
           case 'touchmove':
+
+            // If we have an activate timeout, and we are no longer on the
+            // target, cancel it.
+            if (!this.active && this.timeout &&
+              document.elementFromPoint(e.touches[0].pageX,
+                e.touches[0].pageY) !== this.target) {
+              clearTimeout(this.timeout);
+              return;
+            }
+
             if (!this.active || !this.icon) {
               return;
             }
@@ -99,15 +110,21 @@
 
             break;
           case 'touchend':
+            clearTimeout(this.timeout);
+
+            if (!this.active) {
+              return;
+            }
+
             this.active = false;
             this.icon = null;
 
             if (this.target) {
               this.target.classList.remove('active');
             }
-            this.target = null;
-            clearTimeout(this.activateDelay);
             app.render();
+
+            this.target = null;
 
             break;
         }
