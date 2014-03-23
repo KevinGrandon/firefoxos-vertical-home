@@ -54,19 +54,23 @@
      * @param {Object} e A touch object from a touchmove event.
      */
     scrollIfNeeded: function() {
+
+      var scrollStep = 2;
+
       var touch = this.currentTouch;
       if (!touch) {
+        this.isScrolling = false;
         return;
       }
 
       var docScroll = document.documentElement.scrollTop;
       if (touch.pageY - docScroll > window.innerHeight - 50) {
         this.isScrolling = true;
-        document.documentElement.scrollTop += 1;
+        document.documentElement.scrollTop += scrollStep;
         exports.requestAnimationFrame(this.scrollIfNeeded.bind(this));
       } else if (touch.pageY > 0 && touch.pageY - docScroll < 50) {
         this.isScrolling = true;
-        document.documentElement.scrollTop -= 1;
+        document.documentElement.scrollTop -= scrollStep;
         exports.requestAnimationFrame(this.scrollIfNeeded.bind(this));
       } else {
         this.isScrolling = false;
