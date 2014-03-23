@@ -63,17 +63,59 @@
         return;
       }
 
+      function doScroll(amount) {
+        /* jshint validthis:true */
+        this.isScrolling = true;
+        document.documentElement.scrollTop += amount;
+        exports.requestAnimationFrame(this.scrollIfNeeded.bind(this));
+        touch.pageY += amount;
+        this.positionIcon(touch.pageX, touch.pageY);
+      }
+
       var docScroll = document.documentElement.scrollTop;
       if (touch.pageY - docScroll > window.innerHeight - 50) {
-        this.isScrolling = true;
-        document.documentElement.scrollTop += scrollStep;
-        exports.requestAnimationFrame(this.scrollIfNeeded.bind(this));
+        doScroll.call(this, scrollStep);
       } else if (touch.pageY > 0 && touch.pageY - docScroll < 50) {
-        this.isScrolling = true;
-        document.documentElement.scrollTop -= scrollStep;
-        exports.requestAnimationFrame(this.scrollIfNeeded.bind(this));
+        doScroll.call(this, 0 - scrollStep);
       } else {
         this.isScrolling = false;
+      }
+    },
+
+    /**
+     * Positions an icon on the grid.
+     * @param {Integer} pageX
+     * @param {Integer} posY
+     */
+    positionIcon: function(pageX, pageY) {
+      this.icon.transform(
+        pageX - this.xAdjust,
+        pageY - this.yAdjust,
+        this.icon.scale + activeScaleAdjust);
+
+      // Reposition in the icons array if necessary.
+      // Find the icon with the closest X/Y position of the move,
+      // and insert ours before it.
+      // Todo: this could be more efficient with a binary search.
+      var leastDistance;
+      var foundIndex;
+      for (var i = 0, iLen = app.items.length; i < iLen; i++) {
+        var item = app.items[i];
+        var distance = Math.sqrt(
+          (pageX - item.x) * (pageX - item.x) +
+          (pageY - item.y) * (pageY - item.y));
+        if (!leastDistance || distance < leastDistance) {
+          leastDistance = distance;
+          foundIndex = i;
+        }
+      }
+
+      // Insert at the found position
+      var myIndex = this.icon.itemIndex;
+      if (foundIndex !== myIndex) {
+        this.icon.noRender = true;
+        app.items.splice(foundIndex, 0, app.items.splice(myIndex, 1)[0]);
+        app.render();
       }
     },
 
@@ -121,36 +163,12 @@
             e.preventDefault();
 
             var touch = e.touches[0];
-            this.currentTouch = touch;
-            this.icon.transform(
-              touch.pageX - this.xAdjust,
-              touch.pageY - this.yAdjust,
-              this.icon.scale + activeScaleAdjust);
+            this.currentTouch = {
+              pageX: touch.pageX,
+              pageY: touch.pageY
+            };
 
-            // Reposition in the icons array if necessary.
-            // Find the icon with the closest X/Y position of the move,
-            // and insert ours before it.
-            // Todo: this could be more efficient with a binary search.
-            var leastDistance;
-            var foundIndex;
-            for (var i = 0, iLen = app.items.length; i < iLen; i++) {
-              var item = app.items[i];
-              var distance = Math.sqrt(
-                (touch.pageX - item.x) * (touch.pageX - item.x) +
-                (touch.pageY - item.y) * (touch.pageY - item.y));
-              if (!leastDistance || distance < leastDistance) {
-                leastDistance = distance;
-                foundIndex = i;
-              }
-            }
-
-            // Insert at the found position
-            var myIndex = this.icon.itemIndex;
-            if (foundIndex !== myIndex) {
-              this.icon.noRender = true;
-              app.items.splice(foundIndex, 0, app.items.splice(myIndex, 1)[0]);
-              app.render();
-            }
+            this.positionIcon(touch.pageX, touch.pageY);
 
             if (!this.isScrolling) {
               this.scrollIfNeeded();
