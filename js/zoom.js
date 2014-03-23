@@ -1,3 +1,5 @@
+'use strict';
+
 (function(exports) {
 
   const maxIconsPerCol = 4;
@@ -74,7 +76,7 @@
     },
 
     /**
-     * After we render a row we need to store the current position of the y-axis.
+     * After we render a row we need to store the current position of the y-axis
      */
     stepYAxis: function(value) {
       this._offsetY += value;
@@ -95,7 +97,7 @@
 
       // Sort touches by ascending pageX position.
       var touches = [e.touches[0], e.touches[1]].sort(function(a, b) {
-        return a.pageX - b.pageX
+        return a.pageX - b.pageX;
       });
 
       switch(e.type) {
@@ -103,10 +105,12 @@
           this.zoomStartTouches = touches;
           break;
         case 'touchmove':
-          if (this.perRow < maxIconsPerRow && touches[1].pageX < this.zoomStartTouches[1].pageX) {
+          if (this.perRow < maxIconsPerRow &&
+              touches[1].pageX < this.zoomStartTouches[1].pageX) {
               this.percent = 0.75;
               app.render();
-          } else if (this.perRow > minIconsPerRow && touches[1].pageX > this.zoomStartTouches[1].pageX) {
+          } else if (this.perRow > minIconsPerRow &&
+                     touches[1].pageX > this.zoomStartTouches[1].pageX) {
             this.percent = 1;
             app.render();
           }

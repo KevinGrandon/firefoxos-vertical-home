@@ -1,3 +1,5 @@
+'use strict';
+
 (function(exports) {
   // Icon container
   var container = document.getElementById('icons');
@@ -111,7 +113,8 @@
      */
     transform: function(x, y, scale) {
       scale = scale || 1;
-      this.tile.style.transform = 'translate(' + x + 'px,' + y + 'px) scale(' + scale + ')';
+      this.tile.style.transform =
+        'translate(' + x + 'px,' + y + 'px) scale(' + scale + ')';
     },
 
     /**

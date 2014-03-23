@@ -1,3 +1,9 @@
+'use strict';
+/* global Divider */
+/* global DragDrop */
+/* global Icon */
+/* global Zoom */
+
 (function(exports) {
 
   // For now we inject a divider every few icons for testing.
@@ -46,6 +52,7 @@
       }
 
       function eachIcon(icon) {
+        /* jshint validthis:true */
 
         // If there is no icon entry, do not push it onto items.
         if (!icon.icon) {
@@ -135,7 +142,8 @@
 
         // If the item would go over the boundry before rendering,
         // step the y-axis.
-        if (x > 0 && item.gridWidth > 1 && x + item.gridWidth >= this.zoom.perRow) {
+        if (x > 0 && item.gridWidth > 1 &&
+            x + item.gridWidth >= this.zoom.perRow) {
           // Step the y-axis by the size of the last row.
           // For now we just check the height of the last item.
           var lastItem = this.items[idx - 1];
@@ -160,7 +168,7 @@
      * Launches an app.
      */
     clickIcon: function(e) {
-      var container = e.target
+      var container = e.target;
       var identifier = container.dataset.identifier;
       var icon = this.icons[identifier];
 

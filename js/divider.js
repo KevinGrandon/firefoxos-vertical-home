@@ -1,3 +1,5 @@
+'use strict';
+
 (function() {
 	// Icon container
 	var container = document.getElementById('icons');
