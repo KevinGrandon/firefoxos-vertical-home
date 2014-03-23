@@ -7,6 +7,10 @@ html {
   font-size: 10px;
 }
 
+html, body, .icons {
+  height: 100%;
+}
+
 .icons {
   overflow-y: scroll;
   overflow-x: hidden;

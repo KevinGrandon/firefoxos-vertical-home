@@ -48,6 +48,32 @@
     },
 
     /**
+     * Scrolls the page if needed.
+     * The page is scrolled via javascript if an icon is being moved,
+     * and is within a percentage of a page edge.
+     * @param {Object} e A touch object from a touchmove event.
+     */
+    scrollIfNeeded: function() {
+      var touch = this.currentTouch;
+      if (!touch) {
+        return;
+      }
+
+      var docScroll = document.documentElement.scrollTop;
+      if (touch.pageY - docScroll > window.innerHeight - 50) {
+        this.isScrolling = true;
+        document.documentElement.scrollTop += 1;
+        exports.requestAnimationFrame(this.scrollIfNeeded.bind(this));
+      } else if (touch.pageY > 0 && touch.pageY - docScroll < 50) {
+        this.isScrolling = true;
+        document.documentElement.scrollTop -= 1;
+        exports.requestAnimationFrame(this.scrollIfNeeded.bind(this));
+      } else {
+        this.isScrolling = false;
+      }
+    },
+
+    /**
      * General event handler.
      */
     handleEvent: function(e) {
@@ -91,6 +117,7 @@
             e.preventDefault();
 
             var touch = e.touches[0];
+            this.currentTouch = touch;
             this.icon.transform(
               touch.pageX - this.xAdjust,
               touch.pageY - this.yAdjust,
@@ -121,6 +148,10 @@
               app.render();
             }
 
+            if (!this.isScrolling) {
+              this.scrollIfNeeded();
+            }
+
             break;
           case 'touchend':
             clearTimeout(this.timeout);
@@ -129,6 +160,7 @@
               return;
             }
 
+            this.currentTouch = null;
             this.active = false;
             container.classList.remove('edit-mode');
 
