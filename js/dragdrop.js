@@ -54,7 +54,6 @@
      * @param {Object} e A touch object from a touchmove event.
      */
     scrollIfNeeded: function() {
-
       var scrollStep = 2;
 
       var touch = this.currentTouch;
@@ -125,7 +124,6 @@
     handleEvent: function(e) {
       switch(e.type) {
           case 'touchstart':
-
             // If we get a second touch, cancel everything.
             if (e.touches.length > 1) {
               clearTimeout(this.timeout);
@@ -143,9 +141,9 @@
 
             this.timeout = setTimeout(this.begin.bind(this, e),
               activateDelay);
+
             break;
           case 'touchmove':
-
             // If we have an activate timeout, and we are no longer on the
             // target, cancel it.
             if (!this.active && this.timeout &&
