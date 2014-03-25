@@ -1,12 +1,12 @@
 {
-  "name": "Vertical",
+  "name": "homescreen2",
   "description": "A FirefoxOS vertical homepage.",
   "launch_path": "/index.html",
   "type": "certified",
   "role": "homescreen",
   "developer": {
-    "name": "Kevin Grandon",
-    "url": "https://github.com/kevingrandon/"
+    "name": "The Gaia Team",
+    "url": "https://github.com/mozilla-b2g/gaia"
   },
   "permissions": {
     "webapps-manage": {},
