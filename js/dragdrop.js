@@ -92,9 +92,6 @@
         pageY - this.yAdjust,
         this.icon.scale + activeScaleAdjust);
 
-      var itemX = item.position.x;
-      var itemY = item.position.y;
-
       // Reposition in the icons array if necessary.
       // Find the icon with the closest X/Y position of the move,
       // and insert ours before it.
@@ -104,8 +101,8 @@
       for (var i = 0, iLen = app.items.length; i < iLen; i++) {
         var item = app.items[i];
         var distance = Math.sqrt(
-          (pageX - x) * (pageX - itemX) +
-          (pageY - itemY) * (pageY - itemY));
+          (pageX - item.x) * (pageX - item.x) +
+          (pageY - item.y) * (pageY - item.y));
         if (!leastDistance || distance < leastDistance) {
           leastDistance = distance;
           foundIndex = i;
