@@ -11,6 +11,9 @@
 
   Divider.prototype = {
 
+    x: 0,
+    y: 0,
+
     /**
      * Height in pixels of each divider.
      */
@@ -29,9 +32,6 @@
      * @param {Number} itemIndex The index of the items list of this item.
      */
     render: function(coordinates, itemIndex) {
-      var x = '0';
-      var y = app.zoom.offsetY;
-
       // Generate the content if we need to
       if (!this.divider) {
         var divider = document.createElement('div');
@@ -41,10 +41,10 @@
         container.appendChild(divider);
       }
 
-      this.divider.style.transform = 'translate(' + x + 'px,' + y + 'px)';
+      var y = app.zoom.offsetY;
+      this.divider.style.transform = 'translate(0 ,' + y + 'px)';
 
       this.itemIndex = itemIndex;
-      this.x = x;
       this.y = y;
     },
 
