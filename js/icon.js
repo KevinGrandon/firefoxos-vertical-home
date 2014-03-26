@@ -15,6 +15,14 @@
   Icon.prototype = {
 
     /**
+     * The position of the entity in pixels.
+     */
+    position: {
+      x: 0,
+      y: 0
+    },
+
+    /**
      * Returns the height in pixels of each icon.
      */
     get pixelHeight() {
@@ -96,8 +104,8 @@
       }
 
       this.itemIndex = itemIndex;
-      this.x = x;
-      this.y = y;
+      this.position.x = x;
+      this.position.y = y;
       this.scale = app.zoom.percent;
 
       // Avoid rendering the icon during a drag to prevent jumpiness
