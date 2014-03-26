@@ -16,7 +16,8 @@
   function App() {
     this.zoom = new Zoom();
     this.dragdrop = new DragDrop();
-    window.addEventListener('click', this.clickIcon.bind(this));
+    var container = document.getElementById('icons');
+    container.addEventListener('click', this.clickIcon.bind(this));
   }
 
   App.prototype = {
@@ -140,7 +141,7 @@
 
       this.items.forEach(function(item, idx) {
 
-        // If the item would go over the boundry before rendering,
+        // If the item would go over the boundary before rendering,
         // step the y-axis.
         if (x > 0 && item.gridWidth > 1 &&
             x + item.gridWidth >= this.zoom.perRow) {
@@ -156,7 +157,7 @@
         }, idx);
 
         // Increment the x-step by the sizing of the item.
-        // If we go over the current boundry, reset it, and step the y-axis.
+        // If we go over the current boundary, reset it, and step the y-axis.
         x += item.gridWidth;
         if (x >= this.zoom.perRow) {
           step(item);
