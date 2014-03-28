@@ -130,7 +130,13 @@
               return;
             }
 
-            this.target = e.touches[0].target;
+            var touch = e.touches[0];
+            this.startTouch = {
+              pageX: touch.pageX,
+              pageY: touch.pageY
+            };
+
+            this.target = touch.target;
 
             var identifier = this.target.dataset.identifier;
             this.icon = app.icons[identifier];
@@ -144,11 +150,14 @@
 
             break;
           case 'touchmove':
-            // If we have an activate timeout, and we are no longer on the
-            // target, cancel it.
-            if (!this.active && this.timeout &&
-              document.elementFromPoint(e.touches[0].pageX,
-                e.touches[0].pageY) !== this.target) {
+            // If we have an activate timeout, and our finger has moved past some
+            // threshold, cancel it.
+            var touch = e.touches[0];
+            var distance = Math.sqrt(
+              (touch.pageX - this.startTouch.pageX) * (touch.pageX - this.startTouch.pageX) +
+              (touch.pageY - this.startTouch.pageY) * (touch.pageY - this.startTouch.pageY));
+
+            if (!this.active && this.timeout && distance > 20) {
               clearTimeout(this.timeout);
               return;
             }
@@ -160,7 +169,6 @@
             e.stopImmediatePropagation();
             e.preventDefault();
 
-            var touch = e.touches[0];
             this.currentTouch = {
               pageX: touch.pageX,
               pageY: touch.pageY
