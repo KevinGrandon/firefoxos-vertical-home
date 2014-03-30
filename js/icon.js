@@ -22,13 +22,6 @@
     },
 
     /**
-     * Centerpoint of the icon in pixels
-     */
-    get centerX() {
-      return this.x - app.zoom.gridItemWidth / 2;
-    },
-
-    /**
      * Width in grid units for each icon.
      */
     gridWidth: 1,

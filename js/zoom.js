@@ -20,9 +20,14 @@
   // Number of pixels that the user must pinch to zoom.
   const touchZoomThreshold = windowWidth / 3;
 
+  // Horizontal center of screen where to track icons to during a pinch.
   const centerScreenX = windowWidth / 2;
 
+  // Vertical Center of screen where to track icons to during a pinch.
   const centerScreenY = windowHeight / 2;
+
+  // Speed up the tracking of icons to the pinch motion
+  const percentMultiplier = 1.75;
 
   function Zoom() {
     this.touches = 0;
@@ -30,7 +35,6 @@
     this.zoomStartTouches = [];
 
     window.addEventListener('touchstart', this);
-    window.addEventListener('touchmove', this);
   }
 
   Zoom.prototype = {
@@ -100,8 +104,13 @@
      */
     handleEvent: function(e) {
 
-      if (e.type === 'touchend') {
+      if (e.type === 'touchend' && this.zoomStartTouches) {
         console.log('touchend: ', e.touches.length);
+        this.zoomStartTouches = [];
+        window.removeEventListener('touchmove', this);
+        window.removeEventListener('touchend', this);
+        app.render();
+        return;
       }
 
       if (!e.touches || e.touches.length !== 2) {
@@ -121,6 +130,9 @@
         case 'touchstart':
           this.zoomStartTouches = touches;
           this.zoomStartDistance = touchDistance;
+
+          window.addEventListener('touchmove', this);
+          window.addEventListener('touchend', this);
           break;
         case 'touchmove':
           var distanceMoved = Math.abs(this.zoomStartDistance - touchDistance);
@@ -136,12 +148,14 @@
                        touchDistance > this.zoomStartDistance) {
               this.percent = 1;
               app.render();
+            } else {
+              app.render();
             }
+
+            window.removeEventListener('touchmove', this);
+            window.removeEventListener('touchend', this);
             return;
           }
-
-          // Speed up the tracking of icons to the pinch motion
-          var percentMultiplier = 1.5;
 
           // Track the touch by zooming to the center of the screen.
           // Move each item to the center of the screen based on a percentage.
