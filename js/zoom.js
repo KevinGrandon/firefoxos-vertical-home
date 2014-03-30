@@ -100,16 +100,25 @@
     },
 
     /**
+     * Tells the app object to snap icons to the grid.
+     * Sets proper transform speeds of icons.
+     */
+    snapToGrid: function() {
+      app.iconContainer.classList.remove('tracking');
+      app.iconContainer.classList.add('snapping');
+      setTimeout(app.render.bind(app), 300);
+    },
+
+    /**
      * General Event Handler
      */
     handleEvent: function(e) {
 
       if (e.type === 'touchend' && this.zoomStartTouches) {
-        console.log('touchend: ', e.touches.length);
         this.zoomStartTouches = [];
         window.removeEventListener('touchmove', this);
         window.removeEventListener('touchend', this);
-        app.render();
+        this.snapToGrid();
         return;
       }
 
@@ -151,13 +160,13 @@
             if (this.perRow < maxIconsPerRow &&
                 touchDistance < this.zoomStartDistance) {
                 this.percent = 0.75;
-                app.render();
+                this.snapToGrid();
             } else if (this.perRow > minIconsPerRow &&
                        touchDistance > this.zoomStartDistance) {
               this.percent = 1;
-              app.render();
+              this.snapToGrid();
             } else {
-              app.render();
+              this.snapToGrid();
             }
 
             window.removeEventListener('touchmove', this);

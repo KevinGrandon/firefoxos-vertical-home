@@ -150,6 +150,10 @@
 
             break;
           case 'touchmove':
+            if (!this.startTouch) {
+              return;
+            }
+
             // If we have an activate timeout, and our finger has moved past some
             // threshold, cancel it.
             var touch = e.touches[0];
