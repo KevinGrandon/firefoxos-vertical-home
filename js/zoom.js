@@ -90,14 +90,14 @@
      * Horizontal center of screen where to track icons to during a pinch.
      */
     get centerScreenX() {
-      return windowWidth / 2;
+      return this._centerScreenX;
     },
 
     /**
      * Vertical Center of screen where to track icons to during a pinch.
      */
     get centerScreenY() {
-      return windowHeight / 2 + document.documentElement.scrollTop;
+      return this._centerScreenY;
     },
 
     /**
@@ -147,6 +147,9 @@
         case 'touchstart':
           this.zoomStartTouches = touches;
           this.zoomStartDistance = touchDistance;
+
+          this._centerScreenX = windowWidth / 2;
+          this._centerScreenY = windowHeight / 2 + document.documentElement.scrollTop;
 
           window.addEventListener('touchmove', this);
           window.addEventListener('touchend', this);
