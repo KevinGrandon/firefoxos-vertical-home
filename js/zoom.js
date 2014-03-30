@@ -137,9 +137,17 @@
         case 'touchmove':
           var distanceMoved = Math.abs(this.zoomStartDistance - touchDistance);
 
+          // Track the touch by zooming to the center of the screen.
+          // Move each item to the center of the screen based on a percentage.
+          var animationPercent = distanceMoved / touchZoomThreshold * percentMultiplier;
+
+          if (animationPercent > 1) {
+            animationPercent = 1;
+          }
+
           // If we have tracked touching past a certain threshold,
           // snap the icons to their spot
-          if (distanceMoved > touchZoomThreshold ) {
+          if (Math.abs(1 - animationPercent) < 0.1) {
             if (this.perRow < maxIconsPerRow &&
                 touchDistance < this.zoomStartDistance) {
                 this.percent = 0.75;
@@ -155,14 +163,6 @@
             window.removeEventListener('touchmove', this);
             window.removeEventListener('touchend', this);
             return;
-          }
-
-          // Track the touch by zooming to the center of the screen.
-          // Move each item to the center of the screen based on a percentage.
-          var animationPercent = distanceMoved / touchZoomThreshold * percentMultiplier;
-
-          if (animationPercent > 1) {
-            animationPercent = 1;
           }
 
           for (var i = 0, iLen = app.items.length; i < iLen; i++) {
