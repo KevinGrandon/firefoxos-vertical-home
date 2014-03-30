@@ -12,8 +12,11 @@
 
   const windowWidth = window.innerWidth;
 
+  const zoomThreshold = windowWidth / 3;
+
   function Zoom() {
     this.touches = 0;
+    this.zoomStartDistance = 0;
     this.zoomStartTouches = [];
 
     window.addEventListener('touchstart', this);
@@ -100,21 +103,33 @@
         return a.pageX - b.pageX;
       });
 
+      var touchDistance = Math.sqrt(
+            (touches[0].pageX - touches[1].pageX) * (touches[0].pageX - touches[1].pageX) +
+            (touches[0].pageY - touches[1].pageY) * (touches[0].pageY - touches[1].pageY));
+
       switch(e.type) {
         case 'touchstart':
           this.zoomStartTouches = touches;
+          this.zoomStartDistance = touchDistance;
           break;
         case 'touchmove':
-          if (this.perRow < maxIconsPerRow &&
-              touches[1].pageX < this.zoomStartTouches[1].pageX) {
-              this.percent = 0.75;
+          // If we have tracked touching past a certain threshold,
+          // snap the icons to their spot
+          if (Math.abs(this.zoomStartDistance - touchDistance) >
+              zoomThreshold ) {
+            if (this.perRow < maxIconsPerRow &&
+                touchDistance < this.zoomStartDistance) {
+                this.percent = 0.75;
+                app.render();
+            } else if (this.perRow > minIconsPerRow &&
+                       touchDistance > this.zoomStartDistance) {
+              this.percent = 1;
               app.render();
-          } else if (this.perRow > minIconsPerRow &&
-                     touches[1].pageX > this.zoomStartTouches[1].pageX) {
-            this.percent = 1;
-            app.render();
+            }
+            return;
           }
 
+          // Track the touch by zooming to the center of the screen
           break;
       }
     }
