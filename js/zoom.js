@@ -2,17 +2,27 @@
 
 (function(exports) {
 
+  // Maximum number of allowed icons per column.
   const maxIconsPerCol = 4;
 
+  // Maximum number of allowed icons per row.
   const maxIconsPerRow = 4;
 
+  // Minimum number of allowed icons per row.
   const minIconsPerRow = 3;
 
+  // Height of the window.
   const windowHeight = window.innerHeight;
 
+  // Width of the window.
   const windowWidth = window.innerWidth;
 
-  const zoomThreshold = windowWidth / 3;
+  // Number of pixels that the user must pinch to zoom.
+  const touchZoomThreshold = windowWidth / 3;
+
+  const centerScreenX = windowWidth / 2;
+
+  const centerScreenY = windowHeight / 2;
 
   function Zoom() {
     this.touches = 0;
@@ -113,10 +123,11 @@
           this.zoomStartDistance = touchDistance;
           break;
         case 'touchmove':
+          var distanceMoved = Math.abs(this.zoomStartDistance - touchDistance);
+
           // If we have tracked touching past a certain threshold,
           // snap the icons to their spot
-          if (Math.abs(this.zoomStartDistance - touchDistance) >
-              zoomThreshold ) {
+          if (distanceMoved > touchZoomThreshold ) {
             if (this.perRow < maxIconsPerRow &&
                 touchDistance < this.zoomStartDistance) {
                 this.percent = 0.75;
@@ -129,7 +140,42 @@
             return;
           }
 
-          // Track the touch by zooming to the center of the screen
+          // Speed up the tracking of icons to the pinch motion
+          var percentMultiplier = 1.5;
+
+          // Track the touch by zooming to the center of the screen.
+          // Move each item to the center of the screen based on a percentage.
+          var animationPercent = distanceMoved / touchZoomThreshold * percentMultiplier;
+
+          if (animationPercent > 1) {
+            animationPercent = 1;
+          }
+
+          for (var i = 0, iLen = app.items.length; i < iLen; i++) {
+            var item = app.items[i];
+
+            // Only animate icons for now.
+            if (!item.transform) {
+              continue;
+            }
+
+            var x;
+            var y;
+
+            if (item.x < centerScreenX) {
+              x = (centerScreenX - item.x) * animationPercent + item.x;
+            } else {
+              x = item.x - (item.x - centerScreenX) * animationPercent;
+            }
+
+            if (item.y < centerScreenY) {
+              y = (centerScreenY - item.y) * animationPercent + item.y;
+            } else {
+              y = item.y - (item.y - centerScreenY) * animationPercent;
+            }
+
+            item.transform(x, y, item.scale);
+          }
           break;
       }
     }
