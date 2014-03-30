@@ -162,16 +162,22 @@
             var x;
             var y;
 
-            if (item.x < centerScreenX) {
-              x = (centerScreenX - item.x) * animationPercent + item.x;
+            // Items know how wide and tall they are, and are poisitoned based
+            // on coordinates. We need to calcualte a point to track to,
+            // adjusting for the height and width of each grid item.
+            var trackToX = centerScreenX - app.zoom.gridItemWidth / 2;
+            var trackToY = centerScreenY - app.zoom.gridItemHeight / 2;
+
+            if (item.x < trackToX) {
+              x = (trackToX - item.x) * animationPercent + item.x;
             } else {
-              x = item.x - (item.x - centerScreenX) * animationPercent;
+              x = item.x - (item.x - trackToX) * animationPercent;
             }
 
-            if (item.y < centerScreenY) {
-              y = (centerScreenY - item.y) * animationPercent + item.y;
+            if (item.y < trackToY) {
+              y = (trackToY - item.y) * animationPercent + item.y;
             } else {
-              y = item.y - (item.y - centerScreenY) * animationPercent;
+              y = item.y - (item.y - trackToY) * animationPercent;
             }
 
             item.transform(x, y, item.scale);
