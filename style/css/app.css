@@ -8,14 +8,6 @@ html, body, .icons {
   margin: 0;
 }
 
-#icons {
-  overflow-y: scroll;
-  overflow-x: hidden;
-  width: 100%;
-  height: 100%;
-  will-change: scroll-position;
-}
-
 .icon {
   position: absolute;
   transform-origin: 0 0;

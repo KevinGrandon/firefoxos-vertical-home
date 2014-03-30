@@ -20,12 +20,6 @@
   // Number of pixels that the user must pinch to zoom.
   const touchZoomThreshold = windowWidth / 3;
 
-  // Horizontal center of screen where to track icons to during a pinch.
-  const centerScreenX = windowWidth / 2;
-
-  // Vertical Center of screen where to track icons to during a pinch.
-  const centerScreenY = windowHeight / 2;
-
   // Speed up the tracking of icons to the pinch motion
   const percentMultiplier = 1.75;
 
@@ -90,6 +84,20 @@
 
     set offsetY(value) {
       this._offsetY = value;
+    },
+
+    /**
+     * Horizontal center of screen where to track icons to during a pinch.
+     */
+    get centerScreenX() {
+      return windowWidth / 2;
+    },
+
+    /**
+     * Vertical Center of screen where to track icons to during a pinch.
+     */
+    get centerScreenY() {
+      return windowHeight / 2 + document.documentElement.scrollTop;
     },
 
     /**
@@ -188,8 +196,8 @@
             // Items know how wide and tall they are, and are poisitoned based
             // on coordinates. We need to calcualte a point to track to,
             // adjusting for the height and width of each grid item.
-            var trackToX = centerScreenX - app.zoom.gridItemWidth / 2;
-            var trackToY = centerScreenY - app.zoom.gridItemHeight / 2;
+            var trackToX = this.centerScreenX - app.zoom.gridItemWidth / 2;
+            var trackToY = this.centerScreenY - app.zoom.gridItemHeight / 2;
 
             if (item.x < trackToX) {
               x = (trackToX - item.x) * animationPercent + item.x;
