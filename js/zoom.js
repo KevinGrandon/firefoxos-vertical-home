@@ -140,8 +140,10 @@
       });
 
       var touchDistance = Math.sqrt(
-            (touches[0].pageX - touches[1].pageX) * (touches[0].pageX - touches[1].pageX) +
-            (touches[0].pageY - touches[1].pageY) * (touches[0].pageY - touches[1].pageY));
+            (touches[0].pageX - touches[1].pageX) *
+            (touches[0].pageX - touches[1].pageX) +
+            (touches[0].pageY - touches[1].pageY) *
+            (touches[0].pageY - touches[1].pageY));
 
       switch(e.type) {
         case 'touchstart':
@@ -149,7 +151,8 @@
           this.zoomStartDistance = touchDistance;
 
           this._centerScreenX = windowWidth / 2;
-          this._centerScreenY = windowHeight / 2 + document.documentElement.scrollTop;
+          this._centerScreenY = windowHeight / 2 +
+            document.documentElement.scrollTop;
 
           window.addEventListener('touchmove', this);
           window.addEventListener('touchend', this);
@@ -159,7 +162,8 @@
 
           // Track the touch by zooming to the center of the screen.
           // Move each item to the center of the screen based on a percentage.
-          var animationPercent = distanceMoved / touchZoomThreshold * percentMultiplier;
+          var animationPercent = distanceMoved /
+            touchZoomThreshold * percentMultiplier;
 
           if (animationPercent > 1) {
             animationPercent = 1;
