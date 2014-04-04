@@ -114,7 +114,7 @@
     snapToGrid: function() {
       app.iconContainer.classList.remove('tracking');
       app.iconContainer.classList.add('snapping');
-      setTimeout(app.render.bind(app), 300);
+      setTimeout(app.render.bind(app));
     },
 
     /**

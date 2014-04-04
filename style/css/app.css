@@ -50,6 +50,8 @@ html, body, .icons {
   background: rgba(255, 255, 255, 0.3);
   width: calc(100% - 2rem);
   transition: transform 500ms ease;
+  will-change: transform;
+  pointer-events: none;
 }
 
 .divider:last-child {
