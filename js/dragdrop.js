@@ -122,6 +122,8 @@
      * General event handler.
      */
     handleEvent: function(e) {
+      var touch;
+
       switch(e.type) {
           case 'touchstart':
             // If we get a second touch, cancel everything.
@@ -130,7 +132,7 @@
               return;
             }
 
-            var touch = e.touches[0];
+            touch = e.touches[0];
             this.startTouch = {
               pageX: touch.pageX,
               pageY: touch.pageY
@@ -156,7 +158,7 @@
 
             // If we have an activate timeout, and our finger has moved past
             // some threshold, cancel it.
-            var touch = e.touches[0];
+            touch = e.touches[0];
             var distance = Math.sqrt(
               (touch.pageX - this.startTouch.pageX) *
               (touch.pageX - this.startTouch.pageX) +
