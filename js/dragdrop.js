@@ -2,7 +2,7 @@
 
 (function(exports) {
 
-  const activateDelay = 600;
+  const activateDelay = 300;
 
   const activeScaleAdjust = 0.4;
 
@@ -29,22 +29,30 @@
      */
     begin: function(e) {
       if (!this.target || !this.icon) {
-        return;
+        return
       }
-
       this.active = true;
       container.classList.add('edit-mode');
       this.target.classList.add('active');
-
+        
       // Testing with some extra offset (20)
       this.xAdjust = app.zoom.gridItemHeight / 2 + 20;
-      this.yAdjust = app.zoom.gridItemWidth / 2 + 20;
-
+      this.yAdjust = app.zoom.gridItemWidth / 2 + 80;
       // Make the icon larger
       this.icon.transform(
         e.touches[0].pageX - this.xAdjust,
         e.touches[0].pageY - this.yAdjust,
         this.icon.scale + activeScaleAdjust);
+        
+       var deleteIcon = document.getElementsByClassName('icon');
+       //var uninstallIcon = document.getElementsByClassName('options');
+       
+        for (var k = 0; k < deleteIcon.length; k++) {
+              deleteIcon[k].setAttribute('removeable','true');
+              //uninstallIcon[k].onclick = uninstallBegins;
+             }
+        document.getElementById('curtain').setAttribute('isopen','true');
+        document.getElementById('search').style.visibility = 'hidden';
     },
 
     /**
@@ -54,7 +62,7 @@
      * @param {Object} e A touch object from a touchmove event.
      */
     scrollIfNeeded: function() {
-      var scrollStep = 2;
+      var scrollStep = 50;
 
       var touch = this.currentTouch;
       if (!touch) {
@@ -102,7 +110,7 @@
         var item = app.items[i];
         var distance = Math.sqrt(
           (pageX - item.x) * (pageX - item.x) +
-          (pageY - item.y) * (pageY - item.y));
+          (pageY - item.y - 80) * (pageY - item.y - 80)) ;
         if (!leastDistance || distance < leastDistance) {
           leastDistance = distance;
           foundIndex = i;
@@ -115,6 +123,10 @@
         this.icon.noRender = true;
         app.items.splice(foundIndex, 0, app.items.splice(myIndex, 1)[0]);
         app.render();
+          //       document.getElementsByClassName('options').style.visible = 'none';
+       // asyncStorage.getItem('Usage', function(myElement){
+       //    console.log( myElement.xp + 'px,' + myElement.yp + 'px'); 
+        //     });
       }
     },
 
@@ -123,8 +135,8 @@
      */
     handleEvent: function(e) {
       var touch;
-
       switch(e.type) {
+              
           case 'touchstart':
             // If we get a second touch, cancel everything.
             if (e.touches.length > 1) {
@@ -138,17 +150,16 @@
               pageY: touch.pageY
             };
 
-            this.target = touch.target;
-
-            var identifier = this.target.dataset.identifier;
+            this.target = touch.target; 
+            
+              var identifier = this.target.dataset.identifier;
             this.icon = app.icons[identifier];
 
             if (!this.icon) {
               return;
             }
 
-            this.timeout = setTimeout(this.begin.bind(this, e),
-              activateDelay);
+            this.timeout = setTimeout(this.begin.bind(this, e),activateDelay);
 
             break;
           case 'touchmove':
@@ -182,7 +193,7 @@
               pageY: touch.pageY
             };
 
-            this.positionIcon(touch.pageX, touch.pageY);
+            this.positionIcon(touch.pageX, touch.pageY );
 
             if (!this.isScrolling) {
               this.scrollIfNeeded();
@@ -199,6 +210,7 @@
             this.currentTouch = null;
             this.active = false;
             container.classList.remove('edit-mode');
+            
 
             delete this.icon.noRender;
             this.icon = null;
@@ -213,8 +225,11 @@
             break;
         }
     }
+      
+      
   };
 
   exports.DragDrop = DragDrop;
 
 }(window));
+

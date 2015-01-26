@@ -20,7 +20,7 @@
     pixelHeight: 70,
 
     /**
-     * Width in grid units for each divider.
+     * Width in grid units for each divider (Must Be Four).
      */
     gridWidth: 4,
 
@@ -46,6 +46,10 @@
 
       this.itemIndex = itemIndex;
       this.y = y;
+      var scrollableHeight = y+app.zoom.gridItemHeight; // Height of Divider
+     var scrollarea = document.getElementById('scrollable');
+           scrollarea.style.height =''+scrollableHeight+'px'
+
     },
 
     remove: function() {
